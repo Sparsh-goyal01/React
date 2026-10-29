@@ -1,11 +1,16 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function App() {
   const [length, setLength] = useState(8);
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [charAllowed, setCharAllowed] = useState(false);
+  const [password, setPassword] = useState("");
+
+  //REFERENCE VARIABLE - USEREF HOOK
+
   const passwordRef = useRef(null);
 
+  // USE CALLBACK IS USED TO OPTIMIZATION - memorizes the function as it possible if full then full or some less
   const passwordGenerator = useCallback(() => {
     let pass = "";
     let str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -13,21 +18,22 @@ function App() {
     if (numberAllowed) str += "0123456789";
     if (charAllowed) str += "!@#$%^&*(){}-+_=[]~`*";
 
-    for (let i = 0; i < length; i++) {
-      const char = Math.floor(Math.random() * str.length);
+    for (let i = 1; i <= length; i++) {
+      let char = Math.floor(Math.random() * str.length + 1);
       pass += str.charAt(char);
     }
 
-    return pass;
-  }, [length, numberAllowed, charAllowed]);
+    setPassword(pass);
+  }, [length, numberAllowed, charAllowed, setPassword]); // set password is used for memoization
 
-  const password = useMemo(() => passwordGenerator(), [passwordGenerator]);
-
-  const copyPassToClipboard = useCallback(() => {
+  const copyPassToClipboard = useCallback(()=>{
     passwordRef.current?.select();
-    passwordRef.current?.setSelectionRange(0, password.length);
-    window.navigator.clipboard.writeText(password);
-  }, [password]);
+    passwordRef.current?.setSelectionRange(0,20);
+    window.navigator.clipboard.writeText(password)
+  }, [password])
+
+  // used to rerun the function as anything is changes in the dependency array 
+  useEffect(()=>{passwordGenerator()}, [length, numberAllowed, charAllowed, passwordGenerator])
   
   return (
     <>
@@ -71,7 +77,7 @@ function App() {
             <div className="flex items-center gap-x-1">
               <input
                 type="checkbox"
-                checked={numberAllowed}
+                defaultChecked={numberAllowed}
                 id="numberInput"
                 onChange={() => {
                   setNumberAllowed((prev) => !prev);
@@ -82,7 +88,7 @@ function App() {
             <div className="flex items-center gap-x-1">
               <input
                 type="checkbox"
-                checked={charAllowed}
+                defaultChecked={charAllowed}
                 id="CharacterInput"
                 onChange={() => {
                   setCharAllowed((prev) => !prev);

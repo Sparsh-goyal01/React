@@ -1,3 +1,4 @@
+import React, { useEffect, useState} from "react";
 import { useLoaderData } from "react-router";
 
 function Github() {
@@ -25,3 +26,8 @@ function Github() {
 }
 
 export default Github;
+
+export const githubInfoLoader = async () =>{
+    const response = await fetch('https://api.github.com/users/sparsh-goyal01')
+    return response.json()
+}

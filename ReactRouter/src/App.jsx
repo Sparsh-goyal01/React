@@ -1,5 +1,16 @@
+import React, { useState } from 'react'
+import Header from './components/header/header'
+import Home from './components/Home/Home'
+import Footer from './components/footer/Footer'
+
 function App() {
-  return null;
+  const [count, setCount] = useState(0)
+
+  return (
+    <>
+      
+    </>
+  )
 }
 
 export default App

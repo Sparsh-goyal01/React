@@ -1,21 +1,28 @@
 import Chai from "./chai";
-import { useState } from "react";
+import React, { useState } from "react";
 
 function App() {
   const user = "Pari maheshwari";
 
-  const [count, setCounter] = useState(0);
+  
+
+  // HOOKS USE
+
+  /* let [count, setCounter] = useState(15);
   const addValue = () => {
-    setCounter((currentCount) => Math.min(currentCount + 1, 20));
-  };
-  const subValue = () => {
-    setCounter((currentCount) => Math.max(currentCount - 1, 0));
-  };
+    if(count < 20)
+      count += 1;
+    setCounter(count);
+  }
+   const subValue = () => {
+    if(count > 0)
+      count -= 1;
+    setCounter(count);
+  } */
 
   return (
     <>
       <h1>Sparsh Goyal with Hello, {user}</h1>
-      <Chai />
       <h2>Counter Value {count}</h2>
       <button onClick={addValue}>Add Value</button>
       <button onClick={subValue}>Remove Value</button>
